@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SoloTaxes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet" />
+  <style>
+    :root{--black:#0c0c0d;--white:#ffffff;--yellow:#e5e900;--dark:#141414;--mid:#2b2b2b;--grey:#b1b4b2;--body:#272727}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:var(--black);color:var(--white);overflow-x:hidden}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:var(--black);border-bottom:1px solid rgba(255,255,255,0.06)}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:.8rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--white);text-decoration:none;transition:color .2s}
+    .nav-links a:hover{color:var(--yellow)}
+    .lang-toggle{display:flex;align-items:center;background:rgba(255,255,255,.08);border-radius:2rem;padding:3px;gap:2px;border:1px solid rgba(255,255,255,.12)}
+    .lang-btn{font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;padding:.35rem .9rem;border-radius:1.5rem;border:none;cursor:pointer;transition:all .2s;background:transparent;color:var(--grey)}
+    .lang-btn.active{background:var(--yellow);color:var(--black)}
+
+    #hero{min-height:100vh;padding-top:3.5rem;background:var(--black);display:flex;align-items:stretch}
+    .hero-inner{width:100%;display:grid;grid-template-columns:1fr 1fr}
+    .hero-left{background:var(--black);display:flex;flex-direction:column;justify-content:center;padding:5rem 4rem 5rem 5rem}
+    .hero-pretitle{font-size:.72rem;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--grey);margin-bottom:1.2rem;animation:fadeUp .6s .1s both}
+    .hero-wordmark{font-family:'Bebas Neue',sans-serif;font-size:clamp(4rem,9vw,8.5rem);letter-spacing:-.01em;line-height:.9;color:var(--grey);margin-bottom:2.5rem;animation:fadeUp .6s .25s both}
+    .hero-tag-box{border:2px solid var(--yellow);padding:1.1rem 1.4rem;display:inline-block;animation:fadeUp .6s .4s both;max-width:440px}
+    .hero-tag-box p{font-size:.82rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--yellow);line-height:1.6}
+    .hero-right{background:var(--mid);display:flex;flex-direction:column;justify-content:flex-end;padding:3rem;position:relative;overflow:hidden;min-height:100vh}
+    .hero-bg-dollar{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:40vw;color:rgba(255,255,255,.03);user-select:none;pointer-events:none;line-height:1}
+    .hero-right-content{position:relative;z-index:2}
+    .hero-chip{display:inline-block;background:var(--black);padding:.5rem 1rem;margin-bottom:1rem;font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--white)}
+    .hero-desc{font-size:.82rem;color:var(--grey);line-height:1.6;margin-bottom:1.5rem;max-width:320px}
+    .hero-list{list-style:none}
+    .hero-list li{font-size:.8rem;color:var(--grey);padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.07);display:flex;align-items:center;gap:.6rem}
+    .hero-list li::before{content:'→';color:var(--yellow);font-size:.7rem}
+
+    #about{background:var(--white);color:var(--black);padding:7rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .about-heading{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(2.2rem,4vw,3.5rem);line-height:1.1;color:var(--black);margin-bottom:1.5rem}
+    .about-body{font-size:.95rem;line-height:1.75;color:#444}
+    .about-right{display:flex;flex-direction:column}
+    .about-card{border-top:1px solid rgba(0,0,0,.15);padding:1.75rem 0}
+    .about-card:last-child{border-bottom:1px solid rgba(0,0,0,.15)}
+    .about-card h3{font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:.6rem;color:var(--black)}
+    .about-card p{font-size:.85rem;line-height:1.7;color:#555}
+
+    #gradient-section{background:linear-gradient(120deg,#f878cd 0%,#eeb48b 33%,#c6c806 66%,#86b154 100%);padding:5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+    .gradient-heading{font-family:'Playfair Display',serif;font-weight:700;font-size:clamp(2rem,4vw,3rem);line-height:1.15;color:var(--black);margin-bottom:1.5rem}
+    .gradient-body{font-size:.95rem;line-height:1.75;color:rgba(0,0,0,.72)}
+    .illus-wrap{width:100%;max-width:400px;margin:0 auto}
+
+    #services-banner{background:var(--dark);padding:5rem;display:flex;align-items:center;justify-content:space-between;gap:3rem}
+    .banner-heading{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);color:var(--yellow);letter-spacing:.02em;line-height:1}
+    .banner-right-content{max-width:380px}
+    .banner-label{font-size:.72rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--white);margin-bottom:.5rem}
+    .banner-desc{font-size:.85rem;color:var(--grey);line-height:1.65}
+
+    #pricing{background:var(--white);color:var(--black);padding:7rem 5rem}
+    .pricing-title-wrap{text-align:center;margin-bottom:4.5rem}
+    .prices-brush{position:relative;display:inline-block;margin-bottom:.75rem}
+    .prices-brush-bg{position:absolute;bottom:-14px;left:-20px;right:-20px;top:-14px;background:url('brushstroke.png') center/100% 100% no-repeat;z-index:0;mix-blend-mode:multiply;}
+    .prices-brush-text{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,6vw,5rem);letter-spacing:-.02em;color:var(--black);position:relative;z-index:1;padding:0 .5rem}
+    .pricing-start-at{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#888;display:block;margin-top:.5rem}
+    .pricing-tables{display:flex;flex-direction:column;gap:4rem;max-width:780px;margin:0 auto}
+    .pricing-table-title{font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--black);padding-bottom:1rem;border-bottom:2px solid var(--black);margin-bottom:0}
+    .pricing-row{display:flex;justify-content:space-between;align-items:baseline;padding:1rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+    .pricing-row:last-child{border-bottom:none}
+    .pricing-row-name{font-size:.88rem;color:var(--body);flex:1;padding-right:1rem}
+    .pricing-row-price{font-size:.95rem;font-weight:700;color:var(--black);white-space:nowrap}
+
+    #contact{background:var(--black);padding:7rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .contact-heading{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(2.5rem,5vw,4rem);line-height:1.05;color:var(--white);margin-bottom:1.2rem}
+    .contact-sub{font-size:.92rem;color:var(--grey);line-height:1.7;margin-bottom:2.5rem}
+    .contact-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--yellow);color:var(--black);font-weight:700;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;padding:1rem 2rem;border-radius:.2rem;transition:transform .2s,box-shadow .2s}
+    .contact-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(229,233,0,.3)}
+    .contact-right{display:flex;flex-direction:column;gap:1.5rem}
+    .contact-name{font-family:'Playfair Display',serif;font-size:2rem;color:var(--white);font-style:italic}
+    .contact-social{display:flex;flex-direction:column;gap:.75rem}
+    .contact-social-link{display:flex;align-items:center;gap:.75rem;font-size:.85rem;color:var(--grey);text-decoration:none;transition:color .2s}
+    .contact-social-link:hover{color:var(--yellow)}
+    .social-icon{width:34px;height:34px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;letter-spacing:.04em;flex-shrink:0}
+
+    footer{background:var(--black);border-top:1px solid rgba(255,255,255,.06);padding:1.75rem 5rem;display:flex;align-items:center;justify-content:space-between}
+    footer p{font-size:.75rem;color:rgba(255,255,255,.22)}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+    .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    .d1{transition-delay:.12s}.d2{transition-delay:.24s}
+
+    @media(max-width:860px){
+      nav{padding:1rem 1.5rem}
+      .nav-links{display:none}
+      .hero-inner{grid-template-columns:1fr}
+      .hero-left{padding:7rem 2rem 3rem}
+      .hero-right{min-height:55vw}
+      #about,#contact{grid-template-columns:1fr;padding:4rem 2rem;gap:3rem}
+      #gradient-section{grid-template-columns:1fr;padding:4rem 2rem}
+      #services-banner{flex-direction:column;padding:4rem 2rem}
+      #pricing{padding:4rem 2rem}
+      .pricing-tables{max-width:100%}
+      footer{flex-direction:column;gap:.75rem;padding:1.5rem 2rem;text-align:center}
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <ul class="nav-links">
+    <li><a href="#about" data-en="Home" data-fr="Accueil">Home</a></li>
+    <li><a href="#services-banner" data-en="Services" data-fr="Services">Services</a></li>
+    <li><a href="#pricing" data-en="Pricing" data-fr="Tarifs">Pricing</a></li>
+    <li><a href="#contact" data-en="Contact" data-fr="Contact">Contact</a></li>
+  </ul>
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <p class="hero-pretitle" data-en="Take control of your finances" data-fr="Prenez le contrôle de vos finances">Take control of your finances</p>
+      <h1 class="hero-wordmark">SOLOTAXES</h1>
+      <div class="hero-tag-box">
+        <p data-en="TAX SERVICES<br>FOR ENTREPRENEURS, FREELANCERS<br>&amp; DIGITAL NOMADS" data-fr="SERVICES FISCAUX<br>POUR ENTREPRENEURS, PIGISTES<br>&amp; NOMADES NUMÉRIQUES">TAX SERVICES<br>FOR ENTREPRENEURS, FREELANCERS<br>&amp; DIGITAL NOMADS</p>
+      </div>
+    </div>
+    <div class="hero-right">
+
+      <div class="hero-right-content">
+        <span class="hero-chip" data-en="Tax Preparation" data-fr="Préparation fiscale">Tax Preparation</span>
+        <p class="hero-desc" data-en="We prepare everything you need for your tax return." data-fr="Nous préparons tout ce dont vous avez besoin pour votre déclaration fiscale.">We prepare everything you need for your tax return.</p>
+        <ul class="hero-list">
+          <li data-en="Personal Tax Services" data-fr="Services fiscaux personnels">Personal Tax Services</li>
+          <li data-en="Self-Employed Services" data-fr="Services pour travailleurs indépendants">Self-Employed Services</li>
+          <li data-en="Digital Nomad &amp; Non-Resident Filing" data-fr="Déclaration pour nomades numériques et non-résidents">Digital Nomad &amp; Non-Resident Filing</li>
+          <li data-en="Crypto Tax Filing" data-fr="Déclaration pour cryptomonnaies">Crypto Tax Filing</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div>
+    <h2 class="about-heading reveal" data-en="Taxes don't have to be complicated." data-fr="Les impôts n'ont pas à être compliqués.">Taxes don't have to be complicated.</h2>
+    <p class="about-body reveal d1" data-en="Whether you're self-employed, a freelancer, or a small business owner, I offer a straightforward, judgment-free experience tailored to your unique situation." data-fr="Que vous soyez travailleur autonome, pigiste ou propriétaire d'une petite entreprise, j'offre une expérience claire et sans jugement, adaptée à votre situation unique.">Whether you're self-employed, a freelancer, or a small business owner, I offer a straightforward, judgment-free experience tailored to your unique situation.</p>
+  </div>
+  <div class="about-right">
+    <div class="about-card reveal">
+      <h3 data-en="Seamless Financial Management" data-fr="Gestion financière simplifiée">Seamless Financial Management</h3>
+      <p data-en="Stress-free tax filing designed for your lifestyle." data-fr="Une déclaration fiscale sans stress, adaptée à votre mode de vie.">Stress-free tax filing designed for your lifestyle.</p>
+    </div>
+    <div class="about-card reveal d1">
+      <h3 data-en="Tailored for Digital Nomads &amp; Entrepreneurs" data-fr="Adapté aux nomades numériques et aux entrepreneurs">Tailored for Digital Nomads &amp; Entrepreneurs</h3>
+      <p data-en="Specialized tax solutions for those living and working abroad part-time or managing remote businesses." data-fr="Solutions fiscales spécialisées pour ceux qui vivent et travaillent à l'étranger à temps partiel ou qui gèrent des entreprises à distance.">Specialized tax solutions for those living and working abroad part-time or managing remote businesses.</p>
+    </div>
+    <div class="about-card reveal d2">
+      <h3 data-en="Smart Tax Strategies" data-fr="Stratégies fiscales intelligentes">Smart Tax Strategies</h3>
+      <p data-en="Maximize deductions, stay compliant, and keep more of what you earn without the guesswork." data-fr="Maximisez vos déductions, restez conforme et gardez davantage de ce que vous gagnez, sans les incertitudes.">Maximize deductions, stay compliant, and keep more of what you earn without the guesswork.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gradient-section">
+  <div class="reveal">
+    <h2 class="gradient-heading" data-en="Helping individuals and businesses simplify tax filing." data-fr="J'aide les particuliers et les entreprises à simplifier la déclaration fiscale.">Helping individuals and businesses simplify tax filing.</h2>
+    <p class="gradient-body" data-en="Whether you're self-employed, a freelancer, or a small business owner, I offer a straightforward, judgment-free experience tailored to your unique situation." data-fr="Que vous soyez travailleur autonome, pigiste ou propriétaire d'une petite entreprise, j'offre une expérience claire et sans jugement, adaptée à votre situation unique.">Whether you're self-employed, a freelancer, or a small business owner, I offer a straightforward, judgment-free experience tailored to your unique situation.</p>
+  </div>
+  <div class="reveal d1">
+    <div class="illus-wrap">
+      <img src="illustration.png" alt="Person working on laptop illustration" style="width:100%;max-width:420px;display:block;mix-blend-mode:lighten;" />
+    </div>
+  </div>
+</section>
+
+<section id="services-banner">
+  <div class="reveal">
+    <h2 class="banner-heading" data-en="Services" data-fr="Services">Services</h2>
+  </div>
+  <div class="banner-right-content reveal d1">
+    <p class="banner-label" data-en="Tax Preparation" data-fr="Préparation fiscale">Tax Preparation</p>
+    <p class="banner-desc" data-en="We prepare everything you need for your tax return." data-fr="Nous préparons tout ce dont vous avez besoin pour votre déclaration fiscale.">We prepare everything you need for your tax return.</p>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="pricing-title-wrap">
+    <div class="prices-brush reveal">
+      <span class="prices-brush-bg"></span>
+      <span class="prices-brush-text" data-en="Prices" data-fr="Tarifs">Prices</span>
+    </div>
+    <span class="pricing-start-at reveal d1" data-en="START AT:" data-fr="À PARTIR DE :">START AT:</span>
+  </div>
+  <div class="pricing-tables">
+    <div class="pricing-table reveal">
+      <div class="pricing-table-title" data-en="PERSONAL TAX SERVICES" data-fr="SERVICES FISCAUX PERSONNELS">PERSONAL TAX SERVICES</div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Current Year Filing" data-fr="Déclaration de l'année en cours">Current Year Filing</span><span class="pricing-row-price">$80</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Previous Year Filing" data-fr="Déclaration de l'année précédente">Previous Year Filing</span><span class="pricing-row-price">$125</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="24-Hour Rush Filing (Expedited)" data-fr="Service express (24 heures)">24-Hour Rush Filing (Expedited)</span><span class="pricing-row-price">+$50</span></div>
+    </div>
+    <div class="pricing-table reveal">
+      <div class="pricing-table-title" data-en="SELF-EMPLOYED SERVICES" data-fr="SERVICES POUR TRAVAILLEURS INDÉPENDANTS">SELF-EMPLOYED SERVICES</div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Income Tax Filing (Current Year)" data-fr="Déclaration de revenus (année en cours)">Income Tax Filing (Current Year)</span><span class="pricing-row-price">$250</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Income Tax Filing (Previous Years)" data-fr="Déclaration de revenus (années précédentes)">Income Tax Filing (Previous Years)</span><span class="pricing-row-price">$350</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Sales Tax Filing (GST/HST/QST)" data-fr="Déclaration de taxe de vente (TPS/TVH/TVQ)">Sales Tax Filing (GST/HST/QST)</span><span class="pricing-row-price">$200</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Sales Tax Registration (GST/HST/QST)" data-fr="Inscription aux taxes de vente (TPS/TVH/TVQ)">Sales Tax Registration (GST/HST/QST)</span><span class="pricing-row-price">$275</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="General Consulting (Hourly)" data-fr="Consultation générale (à l'heure)">General Consulting (Hourly)</span><span class="pricing-row-price">$150</span></div>
+    </div>
+    <div class="pricing-table reveal">
+      <div class="pricing-table-title" data-en="ADDITIONAL SERVICES" data-fr="SERVICES COMPLÉMENTAIRES">ADDITIONAL SERVICES</div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Rental Property Filings (per property)" data-fr="Déclaration pour propriété locative (par propriété)">Rental Property Filings (per property)</span><span class="pricing-row-price">$250</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Non-Resident Filing: Starting at" data-fr="Déclaration pour non-résident : À partir de">Non-Resident Filing: Starting at</span><span class="pricing-row-price">$400</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Digital Nomads Filing: Starting at" data-fr="Déclaration pour nomades numériques : À partir de">Digital Nomads Filing: Starting at</span><span class="pricing-row-price">$500</span></div>
+      <div class="pricing-row"><span class="pricing-row-name" data-en="Crypto Tax Filing: Starting at" data-fr="Déclaration pour cryptomonnaies : À partir de">Crypto Tax Filing: Starting at</span><span class="pricing-row-price">$500</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div>
+    <h2 class="contact-heading reveal" data-en="Let's work together." data-fr="Travaillons ensemble.">Let's work together.</h2>
+    <p class="contact-sub reveal d1" data-en="Stay compliant. Save time. Keep more of what you earn." data-fr="Restez conforme. Gagnez du temps. Gardez davantage de ce que vous gagnez.">Stay compliant. Save time. Keep more of what you earn.</p>
+    <a href="mailto:thesolotaxes@gmail.com" class="contact-cta reveal d2" data-en="GET STARTED →" data-fr="COMMENCER →">GET STARTED →</a>
+  </div>
+  <div class="contact-right reveal d1">
+    <p class="contact-name">Amari Noel</p>
+    <div class="contact-social">
+      <a href="mailto:thesolotaxes@gmail.com" class="contact-social-link"><span class="social-icon">✉</span><span>thesolotaxes@gmail.com</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p data-en="© 2025 SoloTaxes. All rights reserved." data-fr="© 2025 SoloTaxes. Tous droits réservés.">© 2025 SoloTaxes. All rights reserved.</p>
+  <p data-en="Tax services for the modern worker." data-fr="Services fiscaux pour le travailleur moderne.">Tax services for the modern worker.</p>
+</footer>
+
+<script>
+  function setLang(lang){
+    document.documentElement.lang=lang;
+    document.getElementById('btn-en').classList.toggle('active',lang==='en');
+    document.getElementById('btn-fr').classList.toggle('active',lang==='fr');
+    document.querySelectorAll('[data-en]').forEach(el=>{
+      const t=el.getAttribute('data-'+lang);
+      if(t)el.innerHTML=t;
+    });
+  }
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:0.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
